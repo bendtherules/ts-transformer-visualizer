@@ -1,0 +1,8 @@
+{
+  "short_name": "ts-transformer-visualizer",
+  "name": "ts-transformer-visualizer",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
