@@ -37,6 +37,13 @@ export default {
       rollupCommonJSResolveHack: true,
       clean: true
     }),
-    commonjs()
+    commonjs({
+      namedExports: {
+        // left-hand side can be an absolute path, a path
+        // relative to the current directory, or the name
+        // of a module in node_modules
+        "react-is": ["isValidElementType", "isContextConsumer"]
+      }
+    })
   ]
 }
