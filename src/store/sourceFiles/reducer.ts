@@ -18,7 +18,8 @@ export function sourceFilesReducer(
     case INIT_SOURCEFILE:
       return {
         ...state,
-        inititalSourceFile: action.payload.sourceFile
+        inititalSourceFile: action.payload.sourceFile,
+        currentSourceFile: action.payload.sourceFile
       };
     case UPDATE_SOURCEFILE:
       return {
