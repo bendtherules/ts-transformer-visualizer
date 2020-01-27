@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import RouteComponent from "./routeInfo";
 import "./index.css";
-import App from "./App";
 
-ReactDOM.render(
-  <App moduleName="swap-expression" />,
-  document.getElementById("root")
-);
+ReactDOM.render(<RouteComponent />, document.getElementById("root"));
