@@ -19,10 +19,10 @@ export default function App({
   moduleName: ModuleNames;
   timeDelayMs?: number;
 }) {
+  const { sourceCodeString, transformer } = moduleMap[moduleName];
+
   // Create sourceFile and reset on route change
   useEffect(() => {
-    const { sourceCodeString, transformer } = moduleMap[moduleName];
-
     // 1. Create sourceFile and pass it to visualizer
     const mainFile = ts.createSourceFile(
       "/test",
@@ -44,5 +44,10 @@ export default function App({
     };
   });
 
-  return <ASTVisualizer />;
+  return (
+    <div>
+      <ASTVisualizer />
+      <h2>{moduleName}</h2>
+    </div>
+  );
 }
