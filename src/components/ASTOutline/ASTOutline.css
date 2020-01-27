@@ -1,0 +1,25 @@
+.enter {
+  opacity: 0.5;
+  transform: translateX(200px);
+  background-color: lightgreen;
+}
+.enter.enterActive {
+  opacity: 1;
+  transform: translateX(0);
+  transition: 1s all;
+}
+.enterDone {
+  background-color: lightgreen;
+}
+.exit {
+  opacity: 1;
+  transform: translateX(0);
+  background-color: pink;
+}
+.exit.exitActive {
+  opacity: 0.5;
+  transform: translateX(200px);
+  transition: 1s all;
+}
+.exitDone {
+}

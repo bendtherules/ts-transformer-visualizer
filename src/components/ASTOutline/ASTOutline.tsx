@@ -1,9 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as ts from "typescript";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import { AppState } from "../../store";
 import { forEachChild, syntaxKindNameMapping, ObjectHash } from "../../utils";
+
+import styles from "./ASTOutline.css";
 
 interface ASTOutlineProps {
   node?: ts.Node;
@@ -18,20 +21,31 @@ function ASTOutline(props: ASTOutlineProps) {
 
   const output = (
     <>
-      <li>{syntaxKindNameMapping[node.kind]}</li>
-      <ul>
-        {forEachChild(node).map(childNode => (
-          <ASTOutlineConnected
-            key={ObjectHash.getHash(childNode)}
-            node={childNode}
-          />
-        ))}
-      </ul>
+      <li>
+        {syntaxKindNameMapping[node.kind]}
+        <ul>
+          <TransitionGroup>
+            {forEachChild(node).map(childNode => (
+              <CSSTransition
+                key={ObjectHash.getHash(childNode)}
+                timeout={1000}
+                classNames={styles}
+              >
+                <ASTOutlineConnected node={childNode} />
+              </CSSTransition>
+            ))}
+          </TransitionGroup>
+        </ul>
+      </li>
     </>
   );
 
   if (ts.isSourceFile(node)) {
-    return <ul>{output}</ul>;
+    return (
+      <ul>
+        <TransitionGroup>{output}</TransitionGroup>
+      </ul>
+    );
   } else {
     return output;
   }
