@@ -38,12 +38,8 @@ export function ASTVisualizer() {
               <h2 className={styles.titleLight}>Code output Diff</h2>
             </Row>
             <Row>
-              <Col xs={6} className={styles.titleLight}>
-                Input
-              </Col>
-              <Col xs={6} className={styles.titleLight}>
-                Output
-              </Col>
+              <Col xs={6} className={styles.titleLight}>Input</Col>
+              <Col xs={6} className={styles.titleLight}>Output</Col>
             </Row>
             <CodeOutputDiff />
           </Col>
