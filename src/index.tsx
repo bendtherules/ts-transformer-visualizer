@@ -7,10 +7,7 @@ import { bindActionCreators } from "redux";
 import { Provider } from "react-redux";
 
 import ASTOutline from "./components/ASTOutline";
-import {
-  CodeOutputForInitial,
-  CodeOutputForCurrent
-} from "./components/CodeOutput";
+import CodeOutputDiff from "./components/CodeOutput";
 
 import configureStore from "./store";
 import { initSourceFile, updateSourceFile } from "./store/sourceFiles/actions";
@@ -22,12 +19,8 @@ const store = configureStore();
 export function ASTVisualizer() {
   return (
     <Provider store={store}>
-      Initial:
-      <br />
-      <CodeOutputForInitial />
-      Current:
-      <br />
-      <CodeOutputForCurrent />
+      Initial vs Current:
+      <CodeOutputDiff />
       <ASTOutline />
     </Provider>
   );

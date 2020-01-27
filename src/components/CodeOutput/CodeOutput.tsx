@@ -1,40 +1,43 @@
 import React from "react";
 import { connect } from "react-redux";
 import * as ts from "typescript";
+import ReactDiffViewer from "react-diff-viewer";
 
 import { AppState } from "../../store";
+import { getCodeString } from "../../utils";
 
 interface CodeOutputProps {
-  sourceFile?: ts.SourceFile;
+  inititalSourceFile?: ts.SourceFile;
+  currentSourceFile?: ts.SourceFile;
 }
 
-function CodeOutput(props: CodeOutputProps) {
-  const { sourceFile } = props;
-  if (sourceFile === undefined) {
+function CodeOutputDiff(props: CodeOutputProps) {
+  const { inititalSourceFile, currentSourceFile } = props;
+
+  if (inititalSourceFile === undefined || currentSourceFile === undefined) {
     return null;
   }
 
-  const printer = ts.createPrinter();
-  const codeString = printer.printFile(sourceFile);
+  const initialCodeString = getCodeString(inititalSourceFile);
+  const currentCodeString = getCodeString(currentSourceFile);
 
-  return <div>{codeString}</div>;
+  return (
+    <ReactDiffViewer
+      oldValue={initialCodeString}
+      newValue={currentCodeString}
+      splitView={true}
+      showDiffOnly={false}
+    />
+  );
 }
 
 type CodeOutputStateProps = CodeOutputProps;
 
-const mapStateToPropsForInitial = (state: AppState): CodeOutputStateProps => ({
-  sourceFile: state.sourceFiles.inititalSourceFile
-});
-const mapStateToPropsForCurrent = (state: AppState): CodeOutputStateProps => ({
-  sourceFile: state.sourceFiles.currentSourceFile
+const mapStateToProps = (state: AppState): CodeOutputStateProps => ({
+  ...state.sourceFiles
 });
 
-const CodeOutputForInitial = connect(mapStateToPropsForInitial)(CodeOutput);
-const CodeOutputForCurrent = connect(mapStateToPropsForCurrent)(CodeOutput);
+const CodeOutputDiffConnected = connect(mapStateToProps)(CodeOutputDiff);
+export default CodeOutputDiffConnected;
 
-export {
-  CodeOutputForInitial,
-  CodeOutputForCurrent,
-  CodeOutput as CodeOutputUnconnected,
-  CodeOutputProps
-};
+export { CodeOutputDiff as CodeOutputUnconnected, CodeOutputProps };

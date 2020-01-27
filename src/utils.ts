@@ -41,3 +41,15 @@ export class ObjectHash {
     return returnID;
   }
 }
+
+export function getCodeString(sourceFile?: ts.SourceFile) {
+  if (sourceFile === undefined) {
+    return undefined;
+  }
+
+  const printer = ts.createPrinter();
+  const codeString = printer.printFile(sourceFile);
+
+  return codeString;
+}
+
