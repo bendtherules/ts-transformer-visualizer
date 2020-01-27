@@ -7,7 +7,7 @@ import {
 } from "ts-transformer-visualizer";
 import * as ts from "typescript";
 
-const source = "x = 1;";
+const source = "x = y;\nx=1;\nx=y=z;";
 
 const mainFile = ts.createSourceFile("/test", source, ts.ScriptTarget.ES2015);
 
@@ -19,11 +19,13 @@ const transformer = context => {
      * @returns {ts.VisitResult<ts.Node>}
      */
     const visitor = node => {
-      // If it is a expression statement,
-      if (ts.isExpressionStatement(node)) {
-        // Return it twice.
-        // Effectively duplicating the statement
-        return [node, ts.getMutableClone(node)];
+      if (
+        ts.isBinaryExpression(node) &&
+        node.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
+        ts.isIdentifier(node.left) &&
+        ts.isIdentifier(node.right)
+      ) {
+        return ts.updateBinary(node, node.right, node.left);
       }
 
       return ts.visitEachChild(node, visitor, context);
