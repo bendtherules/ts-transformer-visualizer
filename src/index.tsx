@@ -7,7 +7,11 @@ import ASTOutline from "./components/ASTOutline";
 import CodeOutputDiff from "./components/CodeOutput";
 
 import configureStore from "./store";
-import { initSourceFile, updateSourceFile } from "./store/sourceFiles/actions";
+import {
+  initSourceFile,
+  updateSourceFile,
+  clearSourceFile
+} from "./store/sourceFiles/actions";
 
 import styles from "./styles.css";
 
@@ -34,8 +38,12 @@ export function ASTVisualizer() {
               <h2 className={styles.titleLight}>Code output Diff</h2>
             </Row>
             <Row>
-              <Col xs={6} className={styles.titleLight}>Input</Col>
-              <Col xs={6} className={styles.titleLight}>Output</Col>
+              <Col xs={6} className={styles.titleLight}>
+                Input
+              </Col>
+              <Col xs={6} className={styles.titleLight}>
+                Output
+              </Col>
             </Row>
             <CodeOutputDiff />
           </Col>
@@ -47,10 +55,15 @@ export function ASTVisualizer() {
 
 const {
   initSourceFile: initSourceFileConnected,
-  updateSourceFile: updateSourceFileConnected
-} = bindActionCreators({ initSourceFile, updateSourceFile }, store.dispatch);
+  updateSourceFile: updateSourceFileConnected,
+  clearSourceFile: clearSourceFileConnected
+} = bindActionCreators(
+  { initSourceFile, updateSourceFile, clearSourceFile },
+  store.dispatch
+);
 
 export {
   initSourceFileConnected as initSourceFile,
-  updateSourceFileConnected as updateSourceFile
+  updateSourceFileConnected as updateSourceFile,
+  clearSourceFileConnected as clearSourceFile
 };

@@ -9,6 +9,7 @@ export interface SourceFilesState {
 // Describing the different ACTION NAMES available
 export const INIT_SOURCEFILE = "INIT_SOURCEFILE";
 export const UPDATE_SOURCEFILE = "UPDATE_SOURCEFILE";
+export const CLEAR_SOURCEFILE = "CLEAR_SOURCEFILE";
 
 interface InitSourceFileAction {
   type: typeof INIT_SOURCEFILE;
@@ -20,6 +21,11 @@ interface UpdateSourceFileAction {
   payload: { sourceFile: ts.SourceFile };
 }
 
+interface ClearSourceFileAction {
+  type: typeof CLEAR_SOURCEFILE;
+}
+
 export type SourceFilesActionTypes =
   | InitSourceFileAction
-  | UpdateSourceFileAction;
+  | UpdateSourceFileAction
+  | ClearSourceFileAction;

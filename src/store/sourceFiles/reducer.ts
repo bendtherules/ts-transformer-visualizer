@@ -1,7 +1,8 @@
 import {
-  SourceFilesState,
   INIT_SOURCEFILE,
   UPDATE_SOURCEFILE,
+  CLEAR_SOURCEFILE,
+  SourceFilesState,
   SourceFilesActionTypes
 } from "./types";
 
@@ -26,6 +27,8 @@ export function sourceFilesReducer(
         ...state,
         currentSourceFile: action.payload.sourceFile
       };
+    case CLEAR_SOURCEFILE:
+      return initialState;
     default:
       return state;
   }
