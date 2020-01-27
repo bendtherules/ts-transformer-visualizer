@@ -1,8 +1,20 @@
-/* add css styles here (optional) */
+.wrapperWhole {
+  margin: 1em;
+}
 
-.test {
-  display: inline-block;
-  margin: 2em auto;
-  border: 2px solid #000;
-  font-size: 2em;
+.title {
+  margin: 8px 0;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.titleLight {
+  background-color: lightgray;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  border-bottom: 2px solid darkgray;
+}
+
+.hideOverflow {
+  overflow: hidden;
 }
