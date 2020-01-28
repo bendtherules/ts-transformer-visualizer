@@ -1,20 +1,22 @@
 import * as ts from "typescript";
 import { TransformModuleExport } from "../types";
 
-const sourceCodeString = `x = y; a = b + c;`;
+const sourceCodeString = `\
+let foo = 1, bar = 2;
+foo = bar;
+{
+  bar++;
+  "bar"
+  function() {console.log(bar)}
+}
+`;
 
 const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
   return sourceFile => {
     const visitor = (node: ts.Node): ts.Node => {
-      if (
-        ts.isBinaryExpression(node) &&
-        node.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
-        ts.isIdentifier(node.left) &&
-        ts.isIdentifier(node.right)
-      ) {
-        return ts.updateBinary(node, node.right, node.left);
+      if (ts.isIdentifier(node)) {
+        console.log(node.text);
       }
-
       return ts.visitEachChild(node, visitor, context);
     };
 
@@ -24,7 +26,7 @@ const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
 
 const toExport: TransformModuleExport = {
   sourceCodeString,
-  transformer
+  transformer,
 };
 
 export default toExport;

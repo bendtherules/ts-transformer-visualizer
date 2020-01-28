@@ -1,18 +1,20 @@
 import * as ts from "typescript";
 import { TransformModuleExport } from "../types";
 
-const sourceCodeString = `x = y; a = b + c;`;
+const sourceCodeString = `\
+let a = 1;
+a = 2;
+a++;
+`;
 
 const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
   return sourceFile => {
-    const visitor = (node: ts.Node): ts.Node => {
-      if (
-        ts.isBinaryExpression(node) &&
-        node.operatorToken.kind === ts.SyntaxKind.EqualsToken &&
-        ts.isIdentifier(node.left) &&
-        ts.isIdentifier(node.right)
-      ) {
-        return ts.updateBinary(node, node.right, node.left);
+    const visitor = (node: ts.Node): ts.VisitResult<ts.Node> => {
+      // If it is a expression statement,
+      if (ts.isExpressionStatement(node)) {
+        // Return it twice.
+        // Effectively duplicating the statement
+        return [node, node];
       }
 
       return ts.visitEachChild(node, visitor, context);
@@ -24,7 +26,7 @@ const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
 
 const toExport: TransformModuleExport = {
   sourceCodeString,
-  transformer
+  transformer,
 };
 
 export default toExport;
