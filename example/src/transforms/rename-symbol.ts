@@ -88,9 +88,9 @@ const transformerProgram = (program: ts.Program) => {
   return transformerFactory;
 };
 
-const toExport: TransformModuleExport = {
-  sourceCodeString,
-  transformer: transformerProgram
-};
+// const toExport: TransformModuleExport = {
+//   sourceCodeString,
+//   transformer: transformerProgram
+// };
 
-export default toExport;
+// export default toExport;
