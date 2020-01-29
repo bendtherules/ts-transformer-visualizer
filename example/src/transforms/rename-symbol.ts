@@ -12,7 +12,6 @@ foo = 3;
 
 // Renames all references to the first identifier with the text "foo"
 const identifierText = "foo";
-const identifierMatchIndex = 1;
 const newIdentifierText = "bar";
 
 const transformerProgram = (program: ts.Program) => {
@@ -21,7 +20,6 @@ const transformerProgram = (program: ts.Program) => {
   const transformerFactory: ts.TransformerFactory<ts.SourceFile> = context => {
     return sourceFile => {
       // 1. Find the symbol, if any
-      let identifierCurrentIndex = -1;
       const findSymbolVisitor = (node: ts.Node): ts.Symbol | undefined => {
         if (ts.isIdentifier(node)) {
           const relatedSymbol = typeChecker.getSymbolAtLocation(node);
@@ -29,13 +27,8 @@ const transformerProgram = (program: ts.Program) => {
           if (relatedSymbol === undefined) {
             return;
           }
-          console.log(relatedSymbol.escapedName);
           if (relatedSymbol.escapedName === identifierText) {
-            identifierCurrentIndex += 1;
-            if (identifierCurrentIndex === identifierMatchIndex) {
-              console.log("found");
-              return relatedSymbol;
-            }
+            return relatedSymbol;
           }
         }
 
