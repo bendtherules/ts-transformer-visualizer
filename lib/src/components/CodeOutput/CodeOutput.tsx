@@ -21,8 +21,15 @@ function CodeOutputDiff(props: CodeOutputProps) {
   const initialCodeString = getCodeString(inititalSourceFile);
   const currentCodeString = getCodeString(currentSourceFile);
 
+  const codeStyles = {
+    line: {
+      fontSize: "20px"
+    }
+  };
+
   return (
     <ReactDiffViewer
+      styles={codeStyles}
       oldValue={initialCodeString}
       newValue={currentCodeString}
       splitView={true}
