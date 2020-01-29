@@ -1,7 +1,3 @@
-import ASTOutline, {
-  ASTOutlineUnconnected,
-  ASTOutlineProps
-} from "./ASTOutline";
+import ASTOutline from "./ASTOutline";
 
-export { ASTOutlineUnconnected, ASTOutlineProps };
 export default ASTOutline;

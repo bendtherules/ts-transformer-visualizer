@@ -23,3 +23,9 @@
 }
 .exitDone {
 }
+.node {
+  padding: 0 0.5em;
+}
+.highlightNode {
+  background-color: rgba(254, 246, 2, 0.5);
+}

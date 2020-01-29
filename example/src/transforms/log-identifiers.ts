@@ -1,4 +1,6 @@
 import * as ts from "typescript";
+import { highlightNode } from "ts-transformer-visualizer";
+
 import { TransformModuleExport } from "../types";
 
 const sourceCodeString = `\
@@ -15,6 +17,7 @@ const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
   return sourceFile => {
     const visitor = (node: ts.Node): ts.Node => {
       if (ts.isIdentifier(node)) {
+        highlightNode(node);
         console.log(node.text);
       }
       return ts.visitEachChild(node, visitor, context);

@@ -10,7 +10,9 @@ import configureStore from "./store";
 import {
   initSourceFile,
   updateSourceFile,
-  clearSourceFile
+  clearSourceFile,
+  highlightNode,
+  clearHighlightedNodes
 } from "./store/sourceFiles/actions";
 
 import styles from "./styles.css";
@@ -27,19 +29,23 @@ export function ASTVisualizer() {
           </Col>
         </Row>
         <Row>
-          <Col xs={12} md={6} className={styles.hideOverflow}>
+          <Col xs={12} className={styles.hideOverflow}>
             <Row>
               <h2 className={styles.titleLight}>AST Inline Diff</h2>
             </Row>
             <ASTOutline />
           </Col>
-          <Col xs={12} md={6}>
+          <Col xs={12}>
             <Row>
               <h2 className={styles.titleLight}>Code output Diff</h2>
             </Row>
             <Row>
-              <Col xs={6} className={styles.titleLight}>Input</Col>
-              <Col xs={6} className={styles.titleLight}>Output</Col>
+              <Col xs={6} className={styles.titleLight}>
+                Input
+              </Col>
+              <Col xs={6} className={styles.titleLight}>
+                Output
+              </Col>
             </Row>
             <CodeOutputDiff />
           </Col>
@@ -52,14 +58,24 @@ export function ASTVisualizer() {
 const {
   initSourceFile: initSourceFileConnected,
   updateSourceFile: updateSourceFileConnected,
-  clearSourceFile: clearSourceFileConnected
+  clearSourceFile: clearSourceFileConnected,
+  highlightNode: highlightNodeConnected,
+  clearHighlightedNodes: clearHighlightedNodesConnected
 } = bindActionCreators(
-  { initSourceFile, updateSourceFile, clearSourceFile },
+  {
+    initSourceFile,
+    updateSourceFile,
+    clearSourceFile,
+    highlightNode,
+    clearHighlightedNodes
+  },
   store.dispatch
 );
 
 export {
   initSourceFileConnected as initSourceFile,
   updateSourceFileConnected as updateSourceFile,
-  clearSourceFileConnected as clearSourceFile
+  clearSourceFileConnected as clearSourceFile,
+  highlightNodeConnected as highlightNode,
+  clearHighlightedNodesConnected as clearHighlightedNodes
 };

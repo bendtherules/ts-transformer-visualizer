@@ -4,7 +4,8 @@ import {
   ASTVisualizer,
   initSourceFile,
   updateSourceFile,
-  clearSourceFile
+  clearSourceFile,
+  clearHighlightedNodes
 } from "ts-transformer-visualizer";
 import * as ts from "typescript";
 
@@ -14,7 +15,7 @@ import { moduleMap, ModuleNames } from "./transforms";
 
 export default function App({
   moduleName,
-  timeDelayMs = 3000
+  timeDelayMs = 1000
 }: {
   moduleName: ModuleNames;
   timeDelayMs?: number;
@@ -41,6 +42,7 @@ export default function App({
       // 3. Clean timeout and reset visualizer
       clearTimeout(timeoutID);
       clearSourceFile();
+      clearHighlightedNodes();
     };
   });
 

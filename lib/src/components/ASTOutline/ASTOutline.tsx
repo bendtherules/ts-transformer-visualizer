@@ -1,20 +1,29 @@
 import React from "react";
-import { connect } from "react-redux";
 import * as ts from "typescript";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-import { AppState } from "../../store";
+import { useTypedSelector } from "../../store";
 import { forEachChild, syntaxKindNameMapping, ObjectHash } from "../../utils";
 
 import styles from "./ASTOutline.css";
 
 interface ASTOutlineProps {
   node?: ts.Node;
-  sourceFile?: ts.SourceFile;
 }
 
 function ASTOutline(props: ASTOutlineProps) {
-  const { node, sourceFile } = props;
+  const { node: nodeFromProps } = props;
+  const {
+    node: nodeFromRedux,
+    sourceFile,
+    highlightedNodes
+  } = useTypedSelector(state => ({
+    node: state.sourceFiles.currentSourceFile,
+    sourceFile: state.sourceFiles.currentSourceFile,
+    highlightedNodes: state.highlightedNodes.nodes
+  }));
+  const node = nodeFromProps || nodeFromRedux;
+
   if (node === undefined || sourceFile === undefined) {
     return null;
   }
@@ -22,7 +31,13 @@ function ASTOutline(props: ASTOutlineProps) {
   const output = (
     <>
       <li>
-        {syntaxKindNameMapping[node.kind]}
+        <span
+          className={
+            `${styles.node} ${highlightedNodes.includes(node) ? styles.highlightNode : ""}`
+          }
+        >
+          {syntaxKindNameMapping[node.kind]}
+        </span>
         <ul>
           <TransitionGroup>
             {forEachChild(node).map(childNode => (
@@ -31,7 +46,7 @@ function ASTOutline(props: ASTOutlineProps) {
                 timeout={1000}
                 classNames={styles}
               >
-                <ASTOutlineConnected node={childNode} />
+                <ASTOutline node={childNode} />
               </CSSTransition>
             ))}
           </TransitionGroup>
@@ -51,28 +66,4 @@ function ASTOutline(props: ASTOutlineProps) {
   }
 }
 
-type ASTOutlineStateProps = ASTOutlineProps;
-
-const mapStateToProps = (state: AppState) => ({
-  node: state.sourceFiles.currentSourceFile,
-  sourceFile: state.sourceFiles.currentSourceFile
-});
-// currentSourceFile from ownProps should take preceedence
-const mergeProps = (
-  stateProps: ASTOutlineStateProps,
-  _dispatchProps: never,
-  ownProps: ASTOutlineProps
-) => {
-  return {
-    ...stateProps,
-    ...ownProps
-  };
-};
-
-export { ASTOutline as ASTOutlineUnconnected, ASTOutlineProps };
-const ASTOutlineConnected = connect(
-  mapStateToProps,
-  null,
-  mergeProps
-)(ASTOutline);
-export default ASTOutlineConnected;
+export default ASTOutline;

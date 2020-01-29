@@ -4,12 +4,17 @@ import {
   applyMiddleware,
   Middleware
 } from "redux";
+import { useSelector, TypedUseSelectorHook } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import { sourceFilesReducer } from "./sourceFiles/reducer";
+import {
+  sourceFilesReducer,
+  highlightedNodesReducer
+} from "./sourceFiles/reducer";
 
 const rootReducer = combineReducers({
-  sourceFiles: sourceFilesReducer
+  sourceFiles: sourceFilesReducer,
+  highlightedNodes: highlightedNodesReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>;
@@ -25,3 +30,5 @@ export default function configureStore() {
 
   return store;
 }
+
+export const useTypedSelector: TypedUseSelectorHook<AppState> = useSelector;
